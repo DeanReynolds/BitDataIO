@@ -201,9 +201,6 @@ namespace BitDataIO
             return bits;
         }
 
-        static uint SwapByteOrder(uint value) => ((value & 0xff000000) >> 24) | ((value & 0x00ff0000) >> 8) | ((value & 0x0000ff00) << 8) | ((value & 0x000000ff) << 24);
-        static ulong SwapByteOrder(ulong value) => ((value & 0xff00000000000000L) >> 56) | ((value & 0x00ff000000000000L) >> 40) | ((value & 0x0000ff0000000000L) >> 24) | ((value & 0x000000ff00000000L) >> 8) | ((value & 0x00000000ff000000L) << 8) | ((value & 0x0000000000ff0000L) << 24) | ((value & 0x000000000000ff00L) << 40) | ((value & 0x00000000000000ffL) << 56);
-
         public byte[] Data => _data;
 
         public int LengthBits => _lengthBits;
@@ -358,7 +355,7 @@ namespace BitDataIO
 
         protected void EnsureSize(int bits)
         {
-            var byteLen = ((bits + 7) >> 3);
+            var byteLen = (bits + 7) >> 3;
             if (_data == null)
                 _data = new byte[byteLen + _overAllocateAmount];
             else if (_data.Length < byteLen)
